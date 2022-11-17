@@ -44,12 +44,18 @@
 - name: Create app name var from ssm path in group vars
   ansible.builtin.set_fact:
     app_name: "{{ ssm_path | regex_findall('.+/.+/(.+)/') | first }}"
+  ignore_errors: yes
 
 # Output appname to Console
 - name: Application Name
   debug:
     msg: "Application name is {{ app_name }}"
+  when: app_name is defined
 
+- name: Application Name not defined
+  debug:
+    msg: "Couldnt Define Application name skipping cloudwatch agent install"
+  when: app_name is not defined
 
 # Installation tasks
 - name: Include tasks for installation on {{ ansible_os_family | lower }} distribution
