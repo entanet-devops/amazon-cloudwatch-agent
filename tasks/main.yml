@@ -40,16 +40,30 @@
   tags:
     - include-vars
 
+# Get app name var
+- name: Create app name var from ssm path in group vars
+  ansible.builtin.set_fact:
+    app_name: "{{ ssm_path | regex_findall('.+\/.+\/(.+)\/') | first }}"
+
+# Output appname to Console
+- name: "Application Name"
+      debug:
+        msg: |
+          Application name is {{ app_name }}
+
+
 # Installation tasks
 - name: Include tasks for installation on {{ ansible_os_family | lower }} distribution
   include_tasks: "install-{{ ansible_os_family | lower }}.yml"
   when: >
-    ansible_os_family == 'RedHat' or ansible_os_family == 'Debian'
+    ansible_os_family == 'RedHat' or ansible_os_family == 'Debian' and app_name is defined
   tags:
     - include-install-task
 
 # Configuration tasks
 - name: Configure {{ cwa_package }} for {{ ansible_distribution | lower }}
   include_tasks: "configure.yml"
+  when: >
+    app_name is defined
   tags:
     - configure
