@@ -43,7 +43,7 @@
 # Get app name var
 - name: Create app name var from ssm path in group vars
   ansible.builtin.set_fact:
-    app_name: "{{ ssm_path | regex_findall('.+\/.+\/(.+)\/') | first }}"
+    app_name: "{{ ssm_path | regex_findall(.+\/.+\/(.+)\/) | first }}"
 
 # Output appname to Console
 - name: "Application Name"
