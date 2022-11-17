@@ -115,3 +115,5 @@ cwa_logrotate_files: 5
 # - false
 # default value: false
 cwa_debug: false
+
+cwa_retention_in_days: 7
