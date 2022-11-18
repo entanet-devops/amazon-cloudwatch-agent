@@ -20,7 +20,7 @@
                     {
                         "file_path": "/apps/{{ app_name }}/storage/logs/*.log",
                         "log_group_name": "{{ project_environment }}-{{ app_name }}",
-                        "log_stream_name": "/apps/{{ app_name }}/storage/logs"
+                        "log_stream_name": "/apps/{{ app_name }}/storage/logs",
                         "retention_in_days": {{ cwa_retention_in_days }}
                     },
                     {
